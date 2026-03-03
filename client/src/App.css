@@ -1,0 +1,94 @@
+/* Base Styles */
+.dashboard-container {
+  padding: 20px;
+  font-family: sans-serif;
+  background-color: #0f172a;
+  color: white;
+  min-height: 100vh;
+}
+
+.title {
+  color: #818cf8;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin-bottom: 30px;
+}
+
+/* Flexbox Layout */
+.layout-grid {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  /* Default to stacked for mobile */
+}
+
+/* Panels */
+.panel {
+  background-color: #1e293b;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.form-panel {
+  padding: 20px;
+}
+
+.output-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.canvas-panel {
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+}
+
+.markdown-panel {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.markdown-output {
+  background-color: #020617;
+  padding: 20px;
+  border-radius: 5px;
+  overflow-y: auto;
+  max-height: 400px;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+
+/* Desktop and Tablet View */
+@media (min-width: 768px) {
+  .dashboard-container {
+    padding: 40px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .layout-grid {
+    flex-direction: row;
+    /* Switch to side-by-side */
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+
+  .form-panel {
+    flex: 1 1 400px;
+    padding: 30px;
+  }
+
+  .output-container {
+    flex: 1 1 400px;
+  }
+}
