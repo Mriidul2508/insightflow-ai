@@ -1,4 +1,3 @@
-// client/src/App.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Canvas } from '@react-three/fiber';
@@ -15,6 +14,7 @@ function App() {
   
   const [readme, setReadme] = useState('');
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,8 +23,9 @@ function App() {
   const generateReadme = async () => {
     setLoading(true);
     setReadme(''); 
+    setCopied(false);
     
-    // DYNAMIC API URL: Uses your deployed URL in production, or localhost during development
+    // Connects to Render URL in production, or localhost during development
     const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
     
     try {
@@ -38,6 +39,24 @@ function App() {
     setLoading(false);
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(readme);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000); 
+  };
+
+  const handleDownload = () => {
+    const blob = new Blob([readme], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${formData.projectName.replace(/\s+/g, '_')}_README.md`; 
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const inputStyle = {
     width: '100%', padding: '12px', marginBottom: '15px', 
     backgroundColor: '#0f172a', color: 'white', border: '1px solid #334155', borderRadius: '5px',
@@ -46,7 +65,16 @@ function App() {
 
   return (
     <div className="dashboard-container">
-      <h1 className="title">InsightFlow AI Dashboard</h1>
+      
+      {/* Header with Custom Logo */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '10px' }}>
+        <img 
+          src="/favicon.png" 
+          alt="InsightFlow Logo" 
+          style={{ width: '45px', height: '45px', borderRadius: '8px', boxShadow: '0 0 10px rgba(129, 140, 248, 0.5)' }} 
+        />
+        <h1 className="title" style={{ margin: 0 }}>InsightFlow AI Dashboard</h1>
+      </div>
       <p className="subtitle">Your MERN Stack Portfolio Engine</p>
 
       <div className="layout-grid">
@@ -92,13 +120,40 @@ function App() {
             <h2 style={{ marginBottom: '15px', fontSize: '1.2rem' }}>Generated Output</h2>
             <div className="markdown-output">
               {readme ? (
-                <ReactMarkdown>{readme}</ReactMarkdown>
+                <ReactMarkdown children={readme} />
               ) : (
                 <span style={{ color: '#64748b' }}>Your generated Markdown will appear here...</span>
               )}
             </div>
-          </div>
 
+            {/* The Action Buttons */}
+            {readme && (
+              <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                <button 
+                  onClick={handleCopy}
+                  style={{ 
+                    flex: 1, padding: '10px', backgroundColor: copied ? '#059669' : '#334155', 
+                    color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', 
+                    fontWeight: 'bold', transition: 'background-color 0.2s'
+                  }}
+                >
+                  {copied ? '✅ Copied!' : '📋 Copy Text'}
+                </button>
+                
+                <button 
+                  onClick={handleDownload}
+                  style={{ 
+                    flex: 1, padding: '10px', backgroundColor: '#2563eb', color: 'white', 
+                    border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold',
+                    transition: 'background-color 0.2s'
+                  }}
+                >
+                  ⬇️ Download .md
+                </button>
+              </div>
+            )}
+
+          </div>
         </div>
       </div>
     </div>
