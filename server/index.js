@@ -28,7 +28,7 @@ app.post('/api/generate-readme', async (req, res) => {
         const { projectName, techStack, features } = req.body;
         
         // Using your preferred 2.5 Flash model
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); 
+        const model = genAI.getGenerativeModel({ model: "gemini-3.1-pro-preview" }); 
         
         const prompt = `Act as a Senior Software Engineer. Write a professional GitHub README.md for a project named ${projectName}. 
         Tech Stack: ${techStack}. 
