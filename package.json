@@ -1,5 +1,13 @@
 {
-  "dependencies": {
-    "react-markdown": "^7.1.2"
-  }
+  "name": "insightflow-ai",
+  "version": "1.0.0",
+  "description": "InsightFlow AI - Intelligent README Generator",
+  "scripts": {
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start"
+  },
+  "dependencies": {}
 }
